@@ -18,11 +18,11 @@ jobs:
       with:
         dotnet-version: 3.1.101
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore .\Comments\Comments.sln
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build .\Comments\Comments.sln --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test .\Comments\Comments.Tests\Comments.Tests.csproj --no-restore --verbosity normal
 
   # https://github.com/marketplace/actions/publish-nuget
   publish:
@@ -31,18 +31,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - name: Setup dotnet
-      #   uses: actions/setup-dotnet@v1
-      #   with:
-      #     dotnet-version: 3.1.200
-
       # Publish
       - name: publish on version change
         id: publish_nuget
         uses: rohith/publish-nuget@v2
         with:
           # Filepath of the project to be packaged, relative to root of repository
-          PROJECT_FILE_PATH: Core/Core.csproj
+          PROJECT_FILE_PATH: Comments/Comments/Comments.csproj
           
           # API key to authenticate with NuGet server
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
