@@ -18,11 +18,11 @@ jobs:
       with:
         dotnet-version: 3.1.101
     - name: Install dependencies
-      run: dotnet restore .\Comments\Comments.sln
+      run: dotnet restore Comments/Comments.sln
     - name: Build
-      run: dotnet build .\Comments\Comments.sln --configuration Release --no-restore
+      run: dotnet build Comments/Comments.sln --configuration Release --no-restore
     - name: Test
-      run: dotnet test .\Comments\Comments.Tests\Comments.Tests.csproj --no-restore --verbosity normal
+      run: dotnet test Comments/Comments.Tests\Comments.Tests.csproj --no-restore --verbosity normal
 
   # https://github.com/marketplace/actions/publish-nuget
   publish:
