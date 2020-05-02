@@ -9,6 +9,8 @@ using System.Security.Claims;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Comments.Demo
 {
@@ -18,25 +20,19 @@ namespace Comments.Demo
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             const string authSchema = CookieAuthenticationDefaults.AuthenticationScheme;
-
-            loggerFactory.AddConsole();
             
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationScheme = authSchema
-            });
             
             // middleware to fake sign in and sign out user
             app.Use(async (httpCtx, next) =>
@@ -48,7 +44,7 @@ namespace Comments.Demo
                         if (!httpCtx.User.Identity.IsAuthenticated)
                         {
                             var identity = new ClaimsIdentity(new List<Claim> { new Claim("comments-admin", "") }, authSchema);
-                            await httpCtx.Authentication.SignInAsync(
+                            await httpCtx.SignInAsync(
                                 authSchema,
                                 new ClaimsPrincipal(identity));
                         }
@@ -60,7 +56,7 @@ namespace Comments.Demo
                     {
                         if (httpCtx.User.Identity.IsAuthenticated)
                         {
-                            await httpCtx.Authentication.SignOutAsync(authSchema);
+                            await httpCtx.SignOutAsync(authSchema);
                         }
                         httpCtx.Response.StatusCode = StatusCodes.Status302Found;
                         httpCtx.Response.Headers["Location"] = "/";

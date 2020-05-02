@@ -1,5 +1,7 @@
 ﻿using Comments.Contracts;
+
 using Microsoft.AspNetCore.Http;
+
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
@@ -35,7 +37,7 @@ namespace Comments.Actions
                 {
                     return;
                 }
-                DeleteCommentModel deleteRequest = JsonConvert.DeserializeObject<DeleteCommentModel>(ctx.Request.ReadBodyAsString());
+                DeleteCommentModel deleteRequest = JsonConvert.DeserializeObject<DeleteCommentModel>(await ctx.Request.ReadBodyAsString());
                 CommentModel deletedComment = null;
                 using (var dataAccess = _dataAccessFact())
                 {

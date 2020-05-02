@@ -1,5 +1,7 @@
 ﻿using Comments.Contracts;
+
 using Microsoft.AspNetCore.Http;
+
 using System;
 using System.Threading.Tasks;
 
@@ -33,7 +35,7 @@ namespace Comments.Actions
         {
             try
             {
-                string text = ctx.Request.ReadBodyAsString();
+                string text = await ctx.Request.ReadBodyAsString();
                 if (text.Length > _options.CommentSourceMaxLength)
                 {
                     await ctx.Response.WriteResponse($"Comment has exceeded maximum length of {_options.CommentSourceMaxLength} characters.", "text/plain", 400);

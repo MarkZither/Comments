@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Http;
 
 namespace Comments
 {
@@ -30,14 +31,14 @@ namespace Comments
             await response.Body.WriteAsync(data, 0, data.Length);
         }
 
-        public static string ReadBodyAsString(this HttpRequest request)
+        public static async Task<string> ReadBodyAsString(this HttpRequest request)
         {
             byte[] data = new byte[1024];
             byte[] wholeBody = null;
             using (Stream s = new MemoryStream())
             {
                 int read = 0;
-                while ((read = request.Body.Read(data, 0, data.Length)) > 0)
+                while ((read = await request.Body.ReadAsync(data, 0, data.Length)) > 0)
                 {
                     s.Write(data, 0, read);
                 }

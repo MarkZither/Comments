@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Comments.Demo
 {
@@ -11,36 +12,15 @@ namespace Comments.Demo
     {
         public static void Main(string[] args)
         {
-            var builder = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory());
-
-            int? port = GetPort();
-
-            if (port.HasValue)
-                builder.UseUrls("http://localhost:" + port);
-            else
-                builder.UseIISIntegration();
-
-            builder
-                .UseStartup<Startup>();
-
-            var host = builder.Build();
-
-            host.Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        private static int? GetPort()
-        {
-            if (File.Exists("port"))
-            {
-                string port = File.ReadAllText("port");
-                if (int.TryParse(port, out int parsedPort))
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    return parsedPort;
-                }
-            }
-            return null;
-        }
+                    webBuilder.UseStartup<Startup>();
+                });
+
     }
 }

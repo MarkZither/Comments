@@ -1,6 +1,8 @@
 ﻿using Comments.Contracts;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
@@ -36,7 +38,7 @@ namespace Comments.Actions
                 {
                     return;
                 }
-                Guid staticId = Guid.Parse(ctx.Request.ReadBodyAsString());
+                Guid staticId = Guid.Parse(await ctx.Request.ReadBodyAsString());
                 bool approve = false;
                 StringValues approveQueryValue;
                 if (ctx.Request.Query.TryGetValue("approve", out approveQueryValue))

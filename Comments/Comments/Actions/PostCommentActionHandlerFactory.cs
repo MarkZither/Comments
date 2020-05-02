@@ -1,5 +1,7 @@
 ﻿using Comments.Contracts;
+
 using Microsoft.AspNetCore.Http;
+
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -34,7 +36,7 @@ namespace Comments.Actions
         {
             try
             {
-                string json = ctx.Request.ReadBodyAsString();
+                string json = await ctx.Request.ReadBodyAsString();
                 CommentModel comment = JsonConvert.DeserializeObject<CommentModel>(json);
                 
                 comment.SetEmailHash();
