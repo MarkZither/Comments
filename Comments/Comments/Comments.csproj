@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Title>MarkZither Comments</Title>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Comments as a middleware for ASP.NET Core apps. Adds comments capabilities to your existing ASP.NET Core app.</Description>
     <Version>0.3.0</Version>
@@ -10,10 +11,12 @@
     <PackageTags>comments aspnetcore middleware</PackageTags>
     <Authors>stanac mburton</Authors>
     <Company></Company>
-    <PackageLicenseUrl>https://github.com/stanac/Comments/blob/master/LICENSE</PackageLicenseUrl>
     <PreBuildEvent></PreBuildEvent>
     <AssemblyVersion>0.3.0.0</AssemblyVersion>
     <FileVersion>0.3.0.0</FileVersion>
+    <PackageId>MarkZither.Comments</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   
   <ItemGroup>
