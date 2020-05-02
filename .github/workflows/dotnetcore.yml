@@ -41,3 +41,6 @@ jobs:
           
           # API key to authenticate with NuGet server
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+          # Flag to toggle pushing symbols along with nuget package to the server, enabled by default
+          INCLUDE_SYMBOLS: false
